@@ -5,7 +5,7 @@
     "start": "expo start --web",
     "build_local": "npx expo export",
     "deploy": "vercel --prod --yes",
-    "build": "expo build:web"
+    "build": "npx expo export:web"
   },
   "dependencies": {
     "@expo/metro-runtime": "~5.0.4",
