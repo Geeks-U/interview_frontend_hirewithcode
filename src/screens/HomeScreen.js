@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { StyleSheet, ScrollView, View, Button } from 'react-native'
 import Markdown from 'react-native-markdown-display'
 
+// 自定义内嵌代码块样式(默认样式有缺陷)
 const markdownStyles = {
   code_inline: {
     backgroundColor: '#eee',
