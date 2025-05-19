@@ -20,7 +20,7 @@ export default function HomeScreen() {
   useEffect(() => {
     async function loadMarkdown() {
       try {
-        const response = await fetch('/Interview_desc.txt')
+        const response = await fetch('/interview_desc.txt')
         const text = await response.text()
         setMdText(text)
       } catch (error) {
