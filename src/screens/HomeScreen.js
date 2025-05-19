@@ -20,15 +20,11 @@ export default function HomeScreen() {
   useEffect(() => {
     async function loadMarkdown() {
       try {
-        const response = await fetch('./interview_desc.txt')
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`)
-        }
+        const response = await fetch('/Interview_desc.txt')
         const text = await response.text()
         setMdText(text)
       } catch (error) {
         console.error('加载Markdown失败:', error)
-        setMdText('# 加载失败\n请刷新页面重试')
       }
     }
     loadMarkdown()
