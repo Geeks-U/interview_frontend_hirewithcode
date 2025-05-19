@@ -46,7 +46,6 @@ export const getParticipantInfo = (github_id, authorization_code) => {
     .from(table_name)
     .select('*')
     .eq('github_id', github_id)
-    .eq('authorization_code', authorization_code)
     .then(({ data, error }) => {
       if (error) {
         return {
@@ -59,6 +58,13 @@ export const getParticipantInfo = (github_id, authorization_code) => {
         return {
           success: false,
           message: `没有找到github_id为${github_id}的参与者`,
+          data: null
+        }
+      }
+      if (data[0].authorization_code !== authorization_code) {
+        return {
+          success: false,
+          message: '授权码不匹配',
           data: null
         }
       }

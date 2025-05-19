@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { StyleSheet, View, TextInput, TouchableOpacity, Text, Dimensions, Animated } from 'react-native'
-import { getParticipantInfo, updateParticipantInfo, deleteParticipantInfo } from '../services/participants'
+import { getParticipantInfo, updateParticipantInfo, deleteParticipantInfo, verifyParticipantCode } from '../services/participants'
 import { getProject, updateProject, deleteProject } from '../services/projects'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 
