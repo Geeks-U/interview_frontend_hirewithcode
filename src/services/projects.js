@@ -51,7 +51,7 @@ export const getProject = (github_id) => {
       return {
         success: true,
         message: '获取项目成功',
-        data
+        data: data[0]
       }
     })
     .catch((err) => {

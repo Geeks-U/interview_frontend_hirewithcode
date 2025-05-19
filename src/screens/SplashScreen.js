@@ -18,7 +18,7 @@ export default function SplashScreen({ navigation }) {
       Animated.parallel([
         Animated.timing(fadeAnim, {
           toValue: 1,
-          duration: 1000,
+          duration: 500,
           useNativeDriver: true,
         }),
         Animated.spring(scaleAnim, {
@@ -30,7 +30,7 @@ export default function SplashScreen({ navigation }) {
       ]),
       Animated.timing(textFadeAnim, {
         toValue: 1,
-        duration: 800,
+        duration: 500,
         useNativeDriver: true,
       }),
     ]).start()
@@ -39,13 +39,13 @@ export default function SplashScreen({ navigation }) {
       // 开始淡出动画
       Animated.timing(pageFadeAnim, {
         toValue: 0,
-        duration: 800,
+        duration: 500,
         useNativeDriver: true,
       }).start(() => {
         // 动画结束后再导航
         navigation.navigate('Home')
       })
-    }, 3200) // 提前200ms开始淡出动画
+    }, 3000) // 提前800ms开始淡出动画
 
     return () => clearTimeout(timer)
   }, [navigation, fadeAnim, scaleAnim, textFadeAnim, pageFadeAnim])

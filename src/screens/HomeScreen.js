@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from 'react'
 import { StyleSheet, ScrollView, View, TouchableOpacity, Text, Dimensions, Platform, Animated } from 'react-native'
 import Markdown from 'react-native-markdown-display'
+import { useNavigation } from '@react-navigation/native'
 
 const { width } = Dimensions.get('window')
 const isMobile = width < 768
@@ -37,23 +38,11 @@ const markdownStyles = {
   },
 }
 
-function SkeletonLoader() {
-  return (
-    <View style={styles.skeletonContainer}>
-      <View style={styles.skeletonTitle} />
-      <View style={styles.skeletonText} />
-      <View style={styles.skeletonText} />
-      <View style={styles.skeletonText} />
-      <View style={styles.skeletonText} />
-      <View style={styles.skeletonText} />
-    </View>
-  )
-}
-
 export default function HomeScreen() {
   const [mdText, setMdText] = useState('')
   const [isLoading, setIsLoading] = useState(true)
   const fadeAnim = useRef(new Animated.Value(0)).current
+  const navigation = useNavigation()
 
   useEffect(() => {
     async function loadMarkdown() {
@@ -94,11 +83,15 @@ export default function HomeScreen() {
           <View style={styles.buttonContainer}>
             <CustomButton
               title="接受挑战"
-              onPress={() => window.alert('跳转至报名页面')}
+              onPress={() => navigation.navigate('AcceptChallenge')}
             />
             <CustomButton
               title="提交作品"
-              onPress={() => window.alert('跳转至作品提交页面')}
+              onPress={() => navigation.navigate('SubmitProject')}
+            />
+            <CustomButton
+              title="管理信息"
+              onPress={() => navigation.navigate('ManageParticipant')}
             />
           </View>
         </View>
@@ -167,20 +160,5 @@ const styles = StyleSheet.create({
     boxShadow: '0 4px 12px rgba(0, 0, 0, 0.08)',
     padding: isMobile ? 8 : isTablet ? 16 : 24,
     transition: 'all 0.3s ease',
-  },
-  skeletonContainer: {
-    gap: 12,
-  },
-  skeletonTitle: {
-    backgroundColor: '#e0e0e0',
-    borderRadius: 4,
-    height: isMobile ? 24 : isTablet ? 28 : 32,
-    width: '70%',
-  },
-  skeletonText: {
-    backgroundColor: '#e0e0e0',
-    borderRadius: 4,
-    height: isMobile ? 15 : isTablet ? 16 : 18,
-    width: '100%',
   },
 })
