@@ -3,9 +3,8 @@
   "type": "module",
   "scripts": {
     "start": "expo start --web",
-    "build_local": "npx expo export",
-    "deploy": "vercel --prod --yes",
-    "build": "npx expo export:web"
+    "build": "npx expo export",
+    "deploy": "vercel --prod --yes"
   },
   "dependencies": {
     "@expo/metro-runtime": "~5.0.4",
