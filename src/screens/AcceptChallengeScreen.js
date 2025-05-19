@@ -54,6 +54,11 @@ export default function AcceptChallengeScreen({ navigation }) {
       return
     }
 
+    if (authorizationCode.length < 6) {
+      setError('授权码至少需要6位')
+      return
+    }
+
     setIsSubmitting(true)
     setError('')
 

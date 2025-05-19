@@ -8,6 +8,9 @@ const { width } = Dimensions.get('window')
 const isMobile = width < 768
 const isTablet = width >= 768 && width < 1024
 
+// 邮箱验证正则表达式
+const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+
 export default function ManageParticipantScreen({ navigation }) {
   const [githubId, setGithubId] = useState('')
   const [authorizationCode, setAuthorizationCode] = useState('')
@@ -169,14 +172,37 @@ export default function ManageParticipantScreen({ navigation }) {
   const handleUpdate = async () => {
     if (!participantInfo) return
 
+    if (!EMAIL_REGEX.test(participantInfo.email)) {
+      setError('请输入有效的邮箱地址')
+      return
+    }
+
+    if (participantInfo.authorization_code.length < 6) {
+      setError('授权码至少需要6位')
+      return
+    }
+
+    // Validate URLs
+    if (projectAvailable) {
+      try {
+        new URL(projectInfo.github_repo_url)
+        new URL(projectInfo.vercel_url)
+      } catch (err) {
+        setError('请输入有效的URL地址')
+        return
+      }
+    }
+
     setIsSubmitting(true)
     setError('')
 
     try {
-      const participantPromise = updateParticipantInfo(githubId, authorizationCode, {
-        email: participantInfo.email,
-        authorization_code: participantInfo.authorization_code
-      })
+      const participantPromise = updateParticipantInfo(githubId, authorizationCode,
+        {
+          email: participantInfo.email,
+          authorization_code: participantInfo.authorization_code
+        }
+      )
 
       const projectPromise = projectAvailable
         ? updateProject(githubId, {
@@ -436,11 +462,22 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: isMobile ? 16 : isTablet ? 24 : 32,
   },
+  contentContainer: {
+    width: '100%',
+  },
+  deleteButton: {
+    backgroundColor: '#e74c3c',
+  },
   errorText: {
     color: '#e74c3c',
     fontSize: 14,
     marginBottom: 16,
     textAlign: 'center',
+  },
+  eyeIcon: {
+    padding: 4,
+    position: 'absolute',
+    right: 12,
   },
   formContainer: {
     backgroundColor: '#fff',
@@ -474,19 +511,14 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     marginBottom: 8,
   },
-  optionsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 20,
-  },
   optionButton: {
-    flex: 1,
-    padding: 12,
+    alignItems: 'center',
+    borderColor: '#ddd',
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: '#ddd',
+    flex: 1,
     marginHorizontal: 8,
-    alignItems: 'center',
+    padding: 12,
   },
   optionButtonSelected: {
     backgroundColor: '#3498db',
@@ -500,19 +532,19 @@ const styles = StyleSheet.create({
   optionTextSelected: {
     color: '#fff',
   },
-  passwordContainer: {
-    position: 'relative',
+  optionsContainer: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 20,
+  },
+  passwordContainer: {
     alignItems: 'center',
+    flexDirection: 'row',
+    position: 'relative',
   },
   passwordInput: {
     flex: 1,
     paddingRight: 40,
-  },
-  eyeIcon: {
-    position: 'absolute',
-    right: 12,
-    padding: 4,
   },
   submitButton: {
     alignItems: 'center',
@@ -523,9 +555,6 @@ const styles = StyleSheet.create({
   },
   submitButtonDisabled: {
     backgroundColor: '#95a5a6',
-  },
-  deleteButton: {
-    backgroundColor: '#e74c3c',
   },
   submitButtonText: {
     color: '#fff',
@@ -544,26 +573,5 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     marginBottom: 8,
     textAlign: 'center',
-  },
-  contentContainer: {
-    width: '100%',
-  },
-  infoContainer: {
-    marginBottom: 20,
-  },
-  infoLabel: {
-    color: '#2c3e50',
-    fontSize: isMobile ? 14 : isTablet ? 15 : 16,
-    fontWeight: '500',
-    marginBottom: 8,
-  },
-  infoText: {
-    color: '#666',
-    fontSize: isMobile ? 14 : isTablet ? 15 : 16,
-    backgroundColor: '#f8f9fa',
-    padding: isMobile ? 12 : isTablet ? 14 : 16,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: '#ddd',
   },
 }) 
