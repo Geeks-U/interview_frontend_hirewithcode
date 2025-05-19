@@ -3,7 +3,7 @@
   "type": "module",
   "scripts": {
     "start": "expo start --web",
-    "build": "npx expo export && npx cpx public/Interview_desc.txt dist/",
+    "build": "npx expo export && npx cpx public/interview_desc.txt dist/ && npx cpx public/interview_desc.txt dist/assets/",
     "deploy": "vercel --prod --yes"
   },
   "dependencies": {
