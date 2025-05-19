@@ -17,7 +17,8 @@ module.exports = {
   },
   globals: {
     window: 'readonly',
-    document: 'readonly'
+    document: 'readonly',
+    require: 'readonly',
   },
   extends: [
     'eslint:recommended',
@@ -29,8 +30,10 @@ module.exports = {
     indent: ['error', 2],
     quotes: ['error', 'single'],
     semi: ['error', 'never'],
+    'react/prop-types': 'off',
     'react/react-in-jsx-scope': 'off',
-    'react-native/no-inline-styles': 'warn'
+    'react-native/no-inline-styles': 'warn',
+    'react-native/no-color-literals': 'off',
   },
   ignorePatterns: ['node_modules/']
 }
