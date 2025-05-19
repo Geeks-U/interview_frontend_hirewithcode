@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>Hello Web</Text>
+      <Text>Hello Animal</Text>
     </View>
   )
 }

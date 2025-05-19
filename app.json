@@ -1,0 +1,40 @@
+{
+  "expo": {
+    "name": "interview-frontend",
+    "slug": "interview-frontend",
+    "version": "1.0.0",
+    "sdkVersion": "53.0.0",
+    "platforms": [
+      "web"
+    ],
+    "entryPoint": "./src/index.web.js",
+    "web": {
+      "favicon": "./assets/logo.png",
+      "build": {
+        "babel": {
+          "include": []
+        }
+      },
+      "manifest": {
+        "short_name": "interview",
+        "display": "standalone",
+        "background_color": "#ffffff",
+        "theme_color": "#000000"
+      }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "58095565-46e2-4232-9cba-f3b4252e1a25"
+      }
+    },
+    "owner": "katelin11",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/58095565-46e2-4232-9cba-f3b4252e1a25"
+    },
+    "android": {},
+    "ios": {}
+  }
+}

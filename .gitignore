@@ -6,3 +6,4 @@ dist/
 
 # 编辑器文件
 .vscode/
+.vercel

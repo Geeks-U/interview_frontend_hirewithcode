@@ -2,7 +2,9 @@
   "main": "src/index.web.js",
   "type": "module",
   "scripts": {
-    "start:web": "expo start --web"
+    "start": "expo start --web",
+    "build": "npx expo export",
+    "deploy": "vercel --prod --yes"
   },
   "dependencies": {
     "@expo/metro-runtime": "~5.0.4",
@@ -10,7 +12,8 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-native": "^0.79.2",
-    "react-native-web": "^0.20.0"
+    "react-native-web": "^0.20.0",
+    "expo-updates": "~0.28.13"
   },
   "devDependencies": {
     "eslint": "^8.57.1",
