@@ -60,7 +60,7 @@ export default function SubmitProjectScreen({ navigation, route }) {
       // First validate if the user has registered and authorization code is correct
       const participantResult = await getParticipantInfo(githubId, authorizationCode)
       if (!participantResult.success) {
-        setError('验证用户信息失败，请检查GitHub ID和授权码是否正确')
+        setError(participantResult.message)
         setIsSubmitting(false)
         return
       }
