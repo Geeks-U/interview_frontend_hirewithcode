@@ -27,7 +27,7 @@ export default function SubmitProjectScreen({ navigation, route }) {
     Animated.timing(fadeAnim, {
       toValue: 1,
       duration: 500,
-      useNativeDriver: true,
+      useNativeDriver: false,
     }).start()
     // 获取参赛作品数
     getProjectCount().then(res => {
@@ -53,7 +53,7 @@ export default function SubmitProjectScreen({ navigation, route }) {
     Animated.timing(fadeAnim, {
       toValue: 0,
       duration: 300,
-      useNativeDriver: true,
+      useNativeDriver: false,
     }).start(() => {
       navigation.navigate('Home')
     })
@@ -112,7 +112,7 @@ export default function SubmitProjectScreen({ navigation, route }) {
         Animated.timing(fadeAnim, {
           toValue: 0,
           duration: 300,
-          useNativeDriver: true,
+          useNativeDriver: false,
         }).start(() => {
           alert('项目提交成功！')
           navigation.navigate('Home')

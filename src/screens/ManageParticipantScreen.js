@@ -34,7 +34,7 @@ export default function ManageParticipantScreen({ navigation }) {
     Animated.timing(fadeAnim, {
       toValue: 1,
       duration: 500,
-      useNativeDriver: true,
+      useNativeDriver: false,
     }).start()
   }, [])
 
@@ -45,12 +45,12 @@ export default function ManageParticipantScreen({ navigation }) {
         Animated.timing(verifyFormAnim, {
           toValue: 0,
           duration: 300,
-          useNativeDriver: true,
+          useNativeDriver: false,
         }),
         Animated.timing(optionsAnim, {
           toValue: 1,
           duration: 300,
-          useNativeDriver: true,
+          useNativeDriver: false,
         })
       ]).start()
     } else {
@@ -58,12 +58,12 @@ export default function ManageParticipantScreen({ navigation }) {
         Animated.timing(verifyFormAnim, {
           toValue: 1,
           duration: 300,
-          useNativeDriver: true,
+          useNativeDriver: false,
         }),
         Animated.timing(optionsAnim, {
           toValue: 0,
           duration: 300,
-          useNativeDriver: true,
+          useNativeDriver: false,
         })
       ]).start()
     }
@@ -76,12 +76,12 @@ export default function ManageParticipantScreen({ navigation }) {
         Animated.timing(updateFormAnim, {
           toValue: 1,
           duration: 300,
-          useNativeDriver: true,
+          useNativeDriver: false,
         }),
         Animated.timing(deleteFormAnim, {
           toValue: 0,
           duration: 300,
-          useNativeDriver: true,
+          useNativeDriver: false,
         })
       ]).start()
     } else if (selectedOption === 'delete') {
@@ -89,12 +89,12 @@ export default function ManageParticipantScreen({ navigation }) {
         Animated.timing(updateFormAnim, {
           toValue: 0,
           duration: 300,
-          useNativeDriver: true,
+          useNativeDriver: false,
         }),
         Animated.timing(deleteFormAnim, {
           toValue: 1,
           duration: 300,
-          useNativeDriver: true,
+          useNativeDriver: false,
         })
       ]).start()
     } else {
@@ -102,12 +102,12 @@ export default function ManageParticipantScreen({ navigation }) {
         Animated.timing(updateFormAnim, {
           toValue: 0,
           duration: 300,
-          useNativeDriver: true,
+          useNativeDriver: false,
         }),
         Animated.timing(deleteFormAnim, {
           toValue: 0,
           duration: 300,
-          useNativeDriver: true,
+          useNativeDriver: false,
         })
       ]).start()
     }
@@ -117,7 +117,7 @@ export default function ManageParticipantScreen({ navigation }) {
     Animated.timing(fadeAnim, {
       toValue: 0,
       duration: 300,
-      useNativeDriver: true,
+      useNativeDriver: false,
     }).start(() => {
       navigation.navigate('Home')
     })

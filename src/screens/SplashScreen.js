@@ -19,19 +19,19 @@ export default function SplashScreen({ navigation }) {
         Animated.timing(fadeAnim, {
           toValue: 1,
           duration: 500,
-          useNativeDriver: true,
+          useNativeDriver: false,
         }),
         Animated.spring(scaleAnim, {
           toValue: 1,
           tension: 10,
           friction: 3,
-          useNativeDriver: true,
+          useNativeDriver: false,
         }),
       ]),
       Animated.timing(textFadeAnim, {
         toValue: 1,
         duration: 500,
-        useNativeDriver: true,
+        useNativeDriver: false,
       }),
     ]).start()
 
@@ -40,7 +40,7 @@ export default function SplashScreen({ navigation }) {
       Animated.timing(pageFadeAnim, {
         toValue: 0,
         duration: 500,
-        useNativeDriver: true,
+        useNativeDriver: false,
       }).start(() => {
         // 动画结束后再导航
         navigation.navigate('Home')

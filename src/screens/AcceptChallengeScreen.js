@@ -25,7 +25,7 @@ export default function AcceptChallengeScreen({ navigation }) {
     Animated.timing(fadeAnim, {
       toValue: 1,
       duration: 500,
-      useNativeDriver: true,
+      useNativeDriver: false,
     }).start()
     // 获取参赛人数
     getParticipantCount().then(res => {
@@ -42,7 +42,7 @@ export default function AcceptChallengeScreen({ navigation }) {
     Animated.timing(fadeAnim, {
       toValue: 0,
       duration: 300,
-      useNativeDriver: true,
+      useNativeDriver: false,
     }).start(() => {
       navigation.navigate('Home')
     })
@@ -87,7 +87,7 @@ export default function AcceptChallengeScreen({ navigation }) {
         Animated.timing(fadeAnim, {
           toValue: 0,
           duration: 300,
-          useNativeDriver: true,
+          useNativeDriver: false,
         }).start(() => {
           navigation.navigate('SubmitProject', {
             githubId: githubId,
