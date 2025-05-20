@@ -163,6 +163,33 @@ export const deleteParticipantInfo = (github_id, authorization_code) => {
     })
 }
 
+export const getParticipantCount = () => {
+  return supabase
+    .from(table_name)
+    .select('*', { count: 'exact', head: true }) // 只要数量，不返回实际数据
+    .then(({ count, error }) => {
+      if (error) {
+        return {
+          success: false,
+          message: `获取参赛人数失败：${error.message}`,
+          data: null
+        }
+      }
+      return {
+        success: true,
+        message: '获取参赛人数成功',
+        data: { count }
+      }
+    })
+    .catch((err) => {
+      return {
+        success: false,
+        message: `获取参赛人数出现异常：${err.message}`,
+        data: null
+      }
+    })
+}
+
 export const checkParticipantExists = (github_id) => {
   return supabase
     .from(table_name)

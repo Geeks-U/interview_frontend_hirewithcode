@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { StyleSheet, View, TextInput, TouchableOpacity, Text, Dimensions, Animated } from 'react-native'
-import { addParticipantInfo } from '../services/participants'
+import { addParticipantInfo, getParticipantCount } from '../services/participants'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 
 const { width } = Dimensions.get('window')
@@ -11,6 +11,7 @@ const isTablet = width >= 768 && width < 1024
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
 
 export default function AcceptChallengeScreen({ navigation }) {
+  const [participantCount, setParticipantCount] = useState('...')
   const [githubId, setGithubId] = useState('')
   const [email, setEmail] = useState('')
   const [authorizationCode, setAuthorizationCode] = useState('')
@@ -26,6 +27,14 @@ export default function AcceptChallengeScreen({ navigation }) {
       duration: 500,
       useNativeDriver: true,
     }).start()
+    // 获取参赛人数
+    getParticipantCount().then(res => {
+      if (res.success) {
+        setParticipantCount(res.data.count)
+      } else {
+        console.warn(res.message)
+      }
+    })
   }, [])
 
   const handleBack = () => {
@@ -37,6 +46,10 @@ export default function AcceptChallengeScreen({ navigation }) {
     }).start(() => {
       navigation.navigate('Home')
     })
+  }
+
+  const showParticipantsList = () => {
+    window.alert('参赛者列表不予展示')
   }
 
   const validateEmail = (email) => {
@@ -102,6 +115,12 @@ export default function AcceptChallengeScreen({ navigation }) {
         </TouchableOpacity>
 
         <Text style={styles.title}>接受挑战</Text>
+        <TouchableOpacity
+          style={styles.helloTextWrapper}
+          onPress={showParticipantsList}
+        >
+          <Text style={styles.helloText}>当前参赛人数：{participantCount}</Text>
+        </TouchableOpacity>
         <Text style={styles.subtitle}>请填写以下信息开始你的挑战之旅</Text>
 
         <View style={styles.inputContainer}>
@@ -129,7 +148,7 @@ export default function AcceptChallengeScreen({ navigation }) {
         </View>
 
         <View style={styles.inputContainer}>
-          <Text style={styles.label}>授权码</Text>
+          <Text style={styles.label}>授权码(用于管理个人信息)</Text>
           <View style={styles.passwordContainer}>
             <TextInput
               style={[styles.input, styles.passwordInput]}
@@ -213,6 +232,17 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 8,
     width: '100%',
+  },
+  helloText: {
+    color: '#3498db',
+    fontSize: isMobile ? 14 : isTablet ? 15 : 16,
+    fontWeight: '500',
+  },
+  helloTextWrapper: {
+    position: 'absolute',
+    right: isMobile ? 16 : isTablet ? 20 : 24,
+    top: isMobile ? 16 : isTablet ? 20 : 24,
+    zIndex: 1,
   },
   input: {
     backgroundColor: '#fff',

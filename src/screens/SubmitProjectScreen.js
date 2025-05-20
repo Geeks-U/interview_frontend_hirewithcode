@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { StyleSheet, View, TextInput, TouchableOpacity, Text, Dimensions, Animated } from 'react-native'
-import { addProject } from '../services/projects'
+import { addProject, getProjectCount } from '../services/projects'
 import { getParticipantInfo } from '../services/participants'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 
@@ -9,6 +9,7 @@ const isMobile = width < 768
 const isTablet = width >= 768 && width < 1024
 
 export default function SubmitProjectScreen({ navigation, route }) {
+  const [projectCount, setProjectCount] = useState('...')
   const [githubId, setGithubId] = useState(route.params?.githubId || '')
   const [githubUrl, setGithubUrl] = useState('')
   const [vercelUrl, setVercelUrl] = useState('')
@@ -25,6 +26,14 @@ export default function SubmitProjectScreen({ navigation, route }) {
       duration: 500,
       useNativeDriver: true,
     }).start()
+    // 获取参赛作品数
+    getProjectCount().then(res => {
+      if (res.success) {
+        setProjectCount(res.data.count)
+      } else {
+        console.warn(res.message)
+      }
+    })
   }, [])
 
   const handleBack = () => {
@@ -36,6 +45,10 @@ export default function SubmitProjectScreen({ navigation, route }) {
     }).start(() => {
       navigation.navigate('Home')
     })
+  }
+
+  const showProjectsList = () => {
+    window.alert('参赛作品列表')
   }
 
   const handleSubmit = async () => {
@@ -102,6 +115,12 @@ export default function SubmitProjectScreen({ navigation, route }) {
         </TouchableOpacity>
 
         <Text style={styles.title}>提交作品</Text>
+        <TouchableOpacity
+          style={styles.helloTextWrapper}
+          onPress={showProjectsList}
+        >
+          <Text style={styles.helloText}>当前参赛作品数：{projectCount}</Text>
+        </TouchableOpacity>
         <Text style={styles.subtitle}>请提供你的项目信息</Text>
 
         <View style={styles.inputContainer}>
@@ -227,6 +246,17 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 8,
     width: '100%',
+  },
+  helloText: {
+    color: '#3498db',
+    fontSize: isMobile ? 14 : isTablet ? 15 : 16,
+    fontWeight: '500',
+  },
+  helloTextWrapper: {
+    position: 'absolute',
+    right: isMobile ? 16 : isTablet ? 20 : 24,
+    top: isMobile ? 16 : isTablet ? 20 : 24,
+    zIndex: 1,
   },
   input: {
     backgroundColor: '#fff',

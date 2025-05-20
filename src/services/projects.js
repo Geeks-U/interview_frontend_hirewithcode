@@ -129,6 +129,33 @@ export const deleteProject = (github_id) => {
     })
 }
 
+export const getProjectCount = () => {
+  return supabase
+    .from(table_name)
+    .select('*', { count: 'exact', head: true }) // 只要数量，不返回实际数据
+    .then(({ count, error }) => {
+      if (error) {
+        return {
+          success: false,
+          message: `获取参赛作品失败：${error.message}`,
+          data: null
+        }
+      }
+      return {
+        success: true,
+        message: '获取参赛作品成功',
+        data: { count }
+      }
+    })
+    .catch((err) => {
+      return {
+        success: false,
+        message: `获取参赛作品出现异常：${err.message}`,
+        data: null
+      }
+    })
+}
+
 // 调用示例 注意异步
 // addProject({ github_id: '123456', github_repo_url: 'https://github.com/user/repo', vercel_url: 'https://project.vercel.app' })
 //   .then(result => console.log(result))
