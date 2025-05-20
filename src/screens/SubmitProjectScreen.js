@@ -39,10 +39,10 @@ export default function SubmitProjectScreen({ navigation, route }) {
     })
   }, [])
 
-  // 参赛作品列表
+  // 参赛作品列表 isMobile ? 0.5 : isTablet ? 0.7 : 0.8,
   useEffect(() => {
     Animated.timing(drawerAnim, {
-      toValue: showDrawer ? width * 0.8 : width,
+      toValue: showDrawer ? width * (isMobile ? 0.5 : isTablet ? 0.7 : 0.8) : width,
       duration: 300,
       useNativeDriver: false,
     }).start()
@@ -287,7 +287,7 @@ const styles = StyleSheet.create({
     padding: 20,
     position: 'absolute',
     top: 0,
-    width: width * 0.2,
+    width: width * (isMobile ? 0.5 : isTablet ? 0.3 : 0.2),   // 宽度自定义为 0.2 (isMobile ? 0.5 : isTablet ? 0.3 : 0.2)
     zIndex: 10,
   },
   drawerHeader: {
@@ -303,7 +303,7 @@ const styles = StyleSheet.create({
   },
   drawerWrapper: {
     height: '100%',          // 高度占满父元素
-    width: '20%',            // 宽度自定义为 20%
+    width: isMobile ? '50%' : isTablet ? '30%' : '20%', // 宽度自定义为 20% (isMobile ? 50% : isTablet ? 30% : 20%)
   },
   errorText: {
     color: '#e74c3c',
