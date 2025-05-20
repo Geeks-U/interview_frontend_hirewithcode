@@ -92,17 +92,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#fff',
     borderRadius: 20,
-    elevation: 8,
+    boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
     justifyContent: 'center',
     marginBottom: 24,
     padding: isMobile ? 24 : isTablet ? 32 : 40,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 12,
   },
   welcomeText: {
     color: '#2c3e50',

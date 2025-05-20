@@ -221,16 +221,9 @@ const styles = StyleSheet.create({
   formContainer: {
     backgroundColor: '#fff',
     borderRadius: 12,
-    elevation: 4,
+    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
     maxWidth: 500,
     padding: isMobile ? 20 : isTablet ? 24 : 32,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
     width: '100%',
   },
   helloText: {

@@ -114,11 +114,6 @@ function CustomButton({ title, onPress }) {
 
 const styles = StyleSheet.create({
   button: {
-    ':hover': {
-      backgroundColor: '#2980b9',
-      transform: 'translateY(-1px)',
-      boxShadow: '0 4px 8px rgba(0, 0, 0, 0.15)',
-    },
     alignItems: 'center',
     backgroundColor: '#3498db',
     borderRadius: 8,
@@ -127,7 +122,7 @@ const styles = StyleSheet.create({
     minWidth: isMobile ? 100 : isTablet ? 140 : 160,
     paddingHorizontal: isMobile ? 16 : isTablet ? 24 : 32,
     paddingVertical: isMobile ? 10 : isTablet ? 14 : 16,
-    transition: 'all 0.3s ease',
+    transition: 'all 0.3s ease', // 仅 Web 生效
   },
   buttonContainer: {
     flexDirection: 'row',
@@ -152,13 +147,10 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   markdownBox: {
-    ':hover': {
-      boxShadow: '0 6px 16px rgba(0, 0, 0, 0.12)',
-    },
     backgroundColor: '#fff',
     borderRadius: 12,
     boxShadow: '0 4px 12px rgba(0, 0, 0, 0.08)',
     padding: isMobile ? 8 : isTablet ? 16 : 24,
-    transition: 'all 0.3s ease',
+    transition: 'all 0.3s ease', // 仅 Web 生效
   },
 })

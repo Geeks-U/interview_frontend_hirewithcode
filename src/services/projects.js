@@ -156,6 +156,40 @@ export const getProjectCount = () => {
     })
 }
 
+export const getProjectList = () => {
+  return supabase
+    .from(table_name)
+    .select('*')
+    .then(({ data, error }) => {
+      if (error) {
+        return {
+          success: false,
+          message: `获取项目失败：${error.message}`,
+          data: null
+        }
+      }
+      if (!data || data.length === 0) {
+        return {
+          success: false,
+          message: '项目列表为空',
+          data: null
+        }
+      }
+      return {
+        success: true,
+        message: '获取项目列表成功',
+        data: data
+      }
+    })
+    .catch((err) => {
+      return {
+        success: false,
+        message: `获取项目列表出现异常：${err.message}`,
+        data: null
+      }
+    })
+}
+
 // 调用示例 注意异步
 // addProject({ github_id: '123456', github_repo_url: 'https://github.com/user/repo', vercel_url: 'https://project.vercel.app' })
 //   .then(result => console.log(result))

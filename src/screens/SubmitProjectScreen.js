@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
-import { StyleSheet, View, TextInput, TouchableOpacity, Text, Dimensions, Animated } from 'react-native'
-import { addProject, getProjectCount } from '../services/projects'
+import { StyleSheet, View, TextInput, TouchableOpacity, Text, Dimensions, Animated, FlatList, Pressable, Linking } from 'react-native'
+import { addProject, getProjectCount, getProjectList } from '../services/projects'
 import { getParticipantInfo } from '../services/participants'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 
@@ -16,8 +16,11 @@ export default function SubmitProjectScreen({ navigation, route }) {
   const [authorizationCode, setAuthorizationCode] = useState(route.params?.authorizationCode || '')
   const [showAuthorizationCode, setShowAuthorizationCode] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [showDrawer, setShowDrawer] = useState(false)
+  const [projectList, setProjectList] = useState([])
   const [error, setError] = useState('')
   const fadeAnim = useRef(new Animated.Value(0)).current
+  const drawerAnim = useRef(new Animated.Value(width)).current
 
   useEffect(() => {
     // 淡入动画
@@ -36,6 +39,15 @@ export default function SubmitProjectScreen({ navigation, route }) {
     })
   }, [])
 
+  // 参赛作品列表
+  useEffect(() => {
+    Animated.timing(drawerAnim, {
+      toValue: showDrawer ? width * 0.8 : width,
+      duration: 300,
+      useNativeDriver: false,
+    }).start()
+  }, [showDrawer])
+
   const handleBack = () => {
     // 淡出动画
     Animated.timing(fadeAnim, {
@@ -47,8 +59,19 @@ export default function SubmitProjectScreen({ navigation, route }) {
     })
   }
 
-  const showProjectsList = () => {
-    window.alert('参赛作品列表')
+  // 显示参赛作品列表
+  const showProjectsList = async () => {
+    try {
+      const res = await getProjectList()
+      if (res.success) {
+        setProjectList(res.data)
+        setShowDrawer(true)
+      } else {
+        alert(res.message)
+      }
+    } catch (err) {
+      console.warn('获取项目详情失败', err)
+    }
   }
 
   const handleSubmit = async () => {
@@ -198,6 +221,40 @@ export default function SubmitProjectScreen({ navigation, route }) {
           </Text>
         </TouchableOpacity>
       </View>
+      {showDrawer && (
+        <Pressable style={styles.overlay} onPress={() => setShowDrawer(false)}>
+          <Pressable style={styles.drawerWrapper} onPress={() => { }}>
+            {/* 抽屉组件 */}
+            <Animated.View style={[styles.drawer, { left: drawerAnim }]}>
+              <View style={styles.drawerHeader}>
+                <Text style={styles.drawerTitle}>参赛作品列表</Text>
+                <TouchableOpacity onPress={() => setShowDrawer(false)}>
+                  <Icon name="close" size={24} color="#333" />
+                </TouchableOpacity>
+              </View>
+
+              <FlatList
+                data={projectList}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={({ item }) => (
+                  <View style={styles.projectItem}>
+                    <Text style={styles.projectTitle}>
+                      <TouchableOpacity onPress={() => { Linking.openURL(item.github_repo_url) }}>
+                        <Text>{item.github_repo_url.split('/')[3]}</Text>
+                      </TouchableOpacity>
+                    </Text>
+                    <Text style={styles.projectSubtitle}>
+                      <TouchableOpacity onPress={() => Linking.openURL(item.vercel_url)}>
+                        <Text style={styles.projectLink}>{item.vercel_url}</Text>
+                      </TouchableOpacity>
+                    </Text>
+                  </View>
+                )}
+              />
+            </Animated.View>
+          </Pressable>
+        </Pressable>
+      )}
     </Animated.View>
   )
 }
@@ -221,6 +278,33 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: isMobile ? 16 : isTablet ? 24 : 32,
   },
+  drawer: {
+    backgroundColor: '#fff',
+    borderColor: '#ddd',
+    borderLeftWidth: 1,
+    boxShadow: '-2px 0 4px rgba(0, 0, 0, 0.1)',
+    height: '100%',
+    padding: 20,
+    position: 'absolute',
+    top: 0,
+    width: width * 0.2,
+    zIndex: 10,
+  },
+  drawerHeader: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 12,
+  },
+  drawerTitle: {
+    color: '#2c3e50',
+    fontSize: 18,
+    fontWeight: '700',
+  },
+  drawerWrapper: {
+    height: '100%',          // 高度占满父元素
+    width: '20%',            // 宽度自定义为 20%
+  },
   errorText: {
     color: '#e74c3c',
     fontSize: 14,
@@ -235,16 +319,9 @@ const styles = StyleSheet.create({
   formContainer: {
     backgroundColor: '#fff',
     borderRadius: 12,
-    elevation: 4,
+    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
     maxWidth: 500,
     padding: isMobile ? 20 : isTablet ? 24 : 32,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
     width: '100%',
   },
   helloText: {
@@ -275,6 +352,12 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     marginBottom: 8,
   },
+  overlay: {
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',
+    bottom: 0, left: 0, position: 'absolute', right: 0,
+    top: 0,
+    zIndex: 999,
+  },
   passwordContainer: {
     alignItems: 'center',
     flexDirection: 'row',
@@ -283,6 +366,25 @@ const styles = StyleSheet.create({
   passwordInput: {
     flex: 1,
     paddingRight: 40,
+  },
+  projectItem: {
+    borderBottomWidth: 1,
+    borderColor: '#eee',
+    paddingVertical: 12,
+  },
+  projectLink: {
+    color: '#3498db',
+    fontSize: 14,
+    textDecorationLine: 'underline',
+  },
+  projectSubtitle: {
+    color: '#888',
+    fontSize: 14,
+  },
+  projectTitle: {
+    color: '#34495e',
+    fontSize: 16,
+    fontWeight: '600',
   },
   submitButton: {
     alignItems: 'center',
@@ -311,5 +413,5 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     marginBottom: 8,
     textAlign: 'center',
-  },
+  }
 }) 
