@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { StyleSheet, View, TextInput, TouchableOpacity, Text, Dimensions, Animated } from 'react-native'
-import { getParticipantInfo, updateParticipantInfo, deleteParticipantInfo, verifyParticipantCode } from '../services/participants'
+import { getParticipantInfo, updateParticipantInfo, deleteParticipantInfo } from '../services/participants'
 import { getProject, updateProject, deleteProject } from '../services/projects'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 
@@ -267,7 +267,11 @@ export default function ManageParticipantScreen({ navigation }) {
         </TouchableOpacity>
 
         <Text style={styles.title}>管理信息</Text>
-        <Text style={styles.subtitle}>验证身份后可以修改或删除信息</Text>
+        {!isVerified && (
+          <Text style={styles.subtitle}>
+            验证身份后可以修改或删除信息
+          </Text>
+        )}
 
         <Animated.View style={[styles.contentContainer, { opacity: verifyFormAnim }]}>
           {!isVerified && (
